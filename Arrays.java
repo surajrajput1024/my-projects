@@ -1,3 +1,5 @@
+import java.util.*;
+
 public class Arrays {
     /**
      * Next permutation 
@@ -39,11 +41,46 @@ public class Arrays {
         reverse(nums,firstIndex + 1, n - 1);
     }
 
+    /**
+     * Leaders in an array
+     * 
+     * Problem: https://www.geeksforgeeks.org/problems/leaders-in-an-array-1587115620/1
+     * Video: https://www.youtube.com/watch?v=cHrH9CQ8pmY
+     * 
+     * Time complexity: O(n)
+     * Space: O(N)
+     */
+    private static ArrayList<Integer> leaders(int[] nums) {
+        int n = nums.length;
+        ArrayList<Integer> ans = new ArrayList<>();
+        ans.add(nums[n-1]);
+        int maxLeaders = nums[n-1];
+        
+        for(int i = n - 2; i >= 0; i--) {
+            if(nums[i] >= maxLeaders) {
+                maxLeaders = nums[i];
+                ans.add(nums[i]);
+            }
+        }
+
+        reverse(ans, 0, ans.size() - 1);
+
+        return ans;
+    }
+
     // ========= Helper functions =========
     private static void reverse(int[] nums, int left, int right) {
         
         while(left < right) {
             swap(nums, left, right);
+            left++;
+            right--;
+        }
+    }
+
+    private static void reverse(List<Integer> list, int left, int right) {
+        while (left < right) {
+            Collections.swap(list, left, right);
             left++;
             right--;
         }
@@ -56,11 +93,14 @@ public class Arrays {
     }
 
     public static void main(String[] args) {
-        int[] nums = {1,2,3};
+        int[] nums = {16, 17, 4, 3, 5, 2};
         nextPermutation(nums); 
        
         for (int i : nums) {
             System.out.print(i + " ");
         }
+
+        ArrayList<Integer> leaders = leaders(nums);
+        System.out.println(leaders.toString());
     }
 }
