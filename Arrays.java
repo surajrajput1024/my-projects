@@ -68,6 +68,33 @@ public class Arrays {
         return ans;
     }
 
+    public int longestConsecutive(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+
+        int longestStreak = 0; 
+
+        for (int num : set) {
+            // Check if 'num' is the start of a sequence (num-1 should not exist)
+            if (!set.contains(num - 1)) {
+                int currentNum = num;
+                int currentStreak = 1;
+
+                // how long the consecutive sequence goes
+                while (set.contains(currentNum + 1)) {
+                    currentNum += 1;
+                    currentStreak += 1;
+                }
+
+                longestStreak = Math.max(longestStreak, currentStreak);
+            }
+        }
+
+        return longestStreak;
+    }
+
     // ========= Helper functions =========
     private static void reverse(int[] nums, int left, int right) {
         
