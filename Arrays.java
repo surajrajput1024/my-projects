@@ -68,6 +68,16 @@ public class Arrays {
         return ans;
     }
 
+    /**
+     * Problem: https://leetcode.com/problems/longest-consecutive-sequence/
+     * Video: https://www.youtube.com/watch?v=oO5uLE7EUlM
+     * 
+     * Time: O(n)
+     * Space O(n)
+     * 
+     * @param nums
+     * @return
+     */
     public int longestConsecutive(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
         for (int num : nums) {
