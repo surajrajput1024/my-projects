@@ -2,6 +2,28 @@ import java.util.*;
 
 public class Arrays {
     /**
+     * Longest element in an array
+     * @param nums
+     */
+    @SuppressWarnings("unused")
+    private static int longestElement(int[] nums) {
+        int max = Integer.MIN_VALUE;
+
+        for(int num: nums) {
+            max = Math.max(num, max);
+        }
+
+        return max;
+    }
+
+    // private static int secondLargestWithoutSorting(int[] nums) {
+    // }
+
+    /**
+     * 
+     */
+
+    /**
      * Next permutation 
      * Probelem: https://leetcode.com/problems/next-permutation/
      * Video: https://www.youtube.com/watch?v=umhrBhdLkaY
