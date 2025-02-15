@@ -2,6 +2,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+class ListNode {
+    int data;
+    ListNode next;
+
+    public ListNode(int data){
+        this.data = data;
+    }
+}
+
+class BinaryTreeNode {
+    int data;
+    BinaryTreeNode left, right;
+
+    public BinaryTreeNode(int data) {
+        this.data = data;
+        left = right = null;
+    }
+}
 
 public class Blind75 {
     private static int[] twoSum(int[] nums, int target) {
@@ -144,6 +162,88 @@ public class Blind75 {
       return nums[left];
     }
 
+    private static boolean isValidPartition(String num, int remSum) {
+        if (remSum < 0) {
+            return false; 
+        }
+    
+        if (num.isEmpty()) {
+            return remSum == 0;
+        }
+    
+        for (int i = 1; i <= num.length(); i++) {
+            String currentSubString = num.substring(0, i);
+            int value = Integer.parseInt(currentSubString);
+            
+            if (isValidPartition(num.substring(i), remSum - value)) {
+                return true; 
+            }
+        }
+        
+        return false; 
+    }
+
+    public static int punishmentNumber(int num) {
+        int totalSum = 0;
+    
+        for (int i = 1; i <= num; i++) {
+            int square = i * i;
+            if (isValidPartition(String.valueOf(square), i)) {
+                totalSum += square;
+            }
+        }
+    
+        return totalSum;
+    }    
+    
+
+    private static ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null) return head;
+
+        ListNode reversed = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+
+        return reversed;
+    }
+
+    public static boolean hasCycle(ListNode head) {
+        if(head == null || head.next == null) return false;
+
+        ListNode slow = head;
+        ListNode fast = head;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if(slow == fast) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static BinaryTreeNode lowestCommonAncestor(BinaryTreeNode root, BinaryTreeNode node1, BinaryTreeNode node2) {
+      if(root == null || root == node1 || root == node2) {
+        return root;
+      }
+
+      BinaryTreeNode left = lowestCommonAncestor(root.left, node1, node2);
+      BinaryTreeNode right = lowestCommonAncestor(root.right, node1, node2);
+
+      if(left == null) {
+        return right;
+      } else if (right == null) {
+        return left;
+      } else {
+        return root;
+      }
+    }
+
+   
+
 
 
     public static void main(String[] args) {
@@ -182,5 +282,29 @@ public class Blind75 {
 
         int[] nums4 = {3,4,5,1,2};
         System.out.println(findMinInRotatedArray(nums4));
+        ListNode head = null;
+        ListNode tail = null;
+
+        for (int i : nums4) {
+            ListNode newNode = new ListNode(i);
+            if(head == null && tail == null) {
+                head = newNode;
+                tail = newNode;
+            } else {
+                tail.next = newNode;
+                tail = tail.next;
+            }
+        }
+
+        ListNode reversed = reverseList(head);
+
+        while (reversed != null) {
+            System.out.print(reversed.data + " ");
+            reversed = reversed.next;
+        }
+
+        System.out.println();
+
+        System.out.println(punishmentNumber(10));
     }
 }
