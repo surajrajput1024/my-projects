@@ -13,6 +13,11 @@ type BinaryTreeNode struct {
 	Right *BinaryTreeNode
 }
 
+type ListNode struct {
+	Data int
+	Next *ListNode
+}
+
 func lowestCommonAncestor(root, p, q *BinaryTreeNode) *BinaryTreeNode {
 	if root == nil || root == p || root == q {
 		return root
@@ -28,6 +33,18 @@ func lowestCommonAncestor(root, p, q *BinaryTreeNode) *BinaryTreeNode {
 	} else {
 		return root
 	}
+}
+
+func reverseList(head *ListNode) *ListNode {
+	if head == nil || head.Next == nil {
+		return head
+	}
+
+	reversed := reverseList(head.Next)
+	head.Next.Next = head
+	head.Next = nil
+
+	return reversed
 }
 
 /**

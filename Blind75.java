@@ -194,7 +194,40 @@ public class Blind75 {
         }
     
         return totalSum;
-    }    
+    }
+    
+    public static int[] constructDistancedSequence(int n) {
+        int[] ans = new int[2 * n - 1]; 
+        boolean[] used = new boolean[n + 1];
+
+        backtrack(ans, used, 0, n);
+        return ans;
+    }
+
+    private static boolean backtrack(int[] ans, boolean[] used, int index, int n) {
+        if (index == ans.length) return true; // Successfully filled sequence
+
+        if (ans[index] != 0) return backtrack(ans, used, index + 1, n); // Skip filled positions
+
+        for (int num = n; num >= 1; num--) { // Try placing larger numbers first
+            if (used[num]) continue;
+
+            int secondIndex = (num > 1) ? index + num : index;
+            if (secondIndex < ans.length && ans[secondIndex] == 0) {
+                // Place the number at both positions
+                ans[index] = ans[secondIndex] = num;
+                used[num] = true;
+
+                if (backtrack(ans, used, index + 1, n)) return true; // Found valid sequence
+
+                // Undo the choice (backtrack)
+                ans[index] = ans[secondIndex] = 0;
+                used[num] = false;
+            }
+        }
+
+        return false;
+    }
     
 
     private static ListNode reverseList(ListNode head) {
@@ -306,5 +339,13 @@ public class Blind75 {
         System.out.println();
 
         System.out.println(punishmentNumber(10));
+
+        int[] nums10 = constructDistancedSequence(3);
+
+        System.out.println();
+
+        for (int i : nums10) {
+            System.out.print( i+ " ");
+        }
     }
 }

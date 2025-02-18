@@ -1,3 +1,5 @@
+import java.util.List;
+
 class ListNode {
     int val;
     ListNode next;
@@ -85,6 +87,92 @@ public class LinkedList {
         head.next = null;
 
         return newHead; 
+    }
+    
+
+    public static ListNode reverseRec(ListNode head){
+        if(head == null || head.next == null) return head;
+
+        ListNode current = head, prev = null, next = head.next;
+
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+
+        return prev;
+    }
+
+        public boolean isPalindrome(ListNode head) {
+            if (head == null || head.next == null) return true;
+    
+            ListNode slow = head, fast = head;
+    
+            while (fast != null && fast.next != null) {
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+    
+            ListNode secondHalf = reverseList(slow);
+            ListNode firstHalf = head;
+            ListNode reversedSecondHalf = secondHalf; 
+    
+            while (secondHalf != null) {  
+                if (firstHalf.val != secondHalf.val) {
+                    return false;
+                }
+                firstHalf = firstHalf.next;
+                secondHalf = secondHalf.next;
+            }
+    
+            reverseList(reversedSecondHalf);
+    
+            return true;
+    }
+
+    public ListNode addOne(ListNode head) {
+        ListNode reversed = reverseList(head);
+        ListNode secondList = new ListNode(1);
+
+        
+        ListNode ans = addTwoList(reversed, secondList, 0);
+        
+
+        return reverseList(ans);
+    }
+
+    private static ListNode addTwoList(ListNode l1, ListNode l2, int carry) {
+       if(l1 == null && l2 == null && carry == 0) {
+        return null;
+       }
+
+       int sum = carry;
+
+       if(l1 != null) {
+        sum += l1.val;
+        l1 = l1.next;
+       }
+
+       if(l2 != null) {
+        sum += l2.val;
+        l2 = l2.next;
+       }
+
+       ListNode newNode = new ListNode(sum % 10);
+       newNode.next = addTwoList(l1, l2, sum / 10);
+
+       return newNode;
+    }
+
+    private static ListNode constructLL(int[] nums) {
+        int n = nums.length;
+        if(n == 0) {
+            return null;
+        }
+
+        
     }
 
     public static void main(String[] args) {
