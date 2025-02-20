@@ -27,7 +27,7 @@ public class Strings {
                 second = currentNode + "c";
             } else if (currentNode.endsWith("b")) {
                 first = currentNode + "a";
-                second = currentNode + "b";
+                second = currentNode + "c";
             } else {
                 first = currentNode + "a";
                 second = currentNode + "b";
@@ -41,7 +41,9 @@ public class Strings {
         return k - 1 < ans.size() ? ans.get(k - 1) : "";
     }
 
+    
+
     public static void main(String[] args) {
-        System.out.println(kthHappyString(3, 9));
+        System.out.println(kthHappyString(7, 8));
     }
 }

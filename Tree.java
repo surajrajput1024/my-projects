@@ -62,4 +62,35 @@ public class Tree {
 
         return root;
     }
+
+    public int maxDepth(BinaryTreeNode root) {
+        if (root == null) return 0;
+
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1; 
+    }
+
+    public boolean isSameTree(BinaryTreeNode p, BinaryTreeNode q) {
+        if(p == null && q == null) return true;
+
+        if(p == null || q == null) return false;
+
+        if(p.data == q.data) {
+            return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        }
+
+        return false;
+    }
+
+    public BinaryTreeNode invertTree(BinaryTreeNode root) {
+        if(root == null) return null;
+
+        BinaryTreeNode leftInverted = invertTree(root.left);
+        BinaryTreeNode rightInverted = invertTree(root.right);
+
+        root.left = rightInverted;
+        root.right = leftInverted;
+
+        return root;
+
+    }
 }
