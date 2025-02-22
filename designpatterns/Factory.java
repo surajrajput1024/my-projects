@@ -1,8 +1,9 @@
+package designpatterns;
+
 interface Vehicle {
     String getType();
 }
 
-// implementation 
 class Car implements Vehicle {
     @Override
     public String getType() {
@@ -30,12 +31,25 @@ abstract class VehicleFactory {
 
 class CarFactory extends VehicleFactory {
     // Write your code here
+    @Override
+    Vehicle createVehicle() {
+        Car car = new Car();
+        return car;
+    }
 }
 
 class BikeFactory extends VehicleFactory {
-    // Write your code here
+    @Override
+    Vehicle createVehicle() {
+        Bike bike = new Bike();
+        return bike;
+    }
 }
 
 class TruckFactory extends VehicleFactory {
-    // Write your code here
+    @Override
+    Vehicle createVehicle() {
+        Truck truck = new Truck();
+        return truck;
+    }
 }
