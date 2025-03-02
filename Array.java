@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 public class Array {
     public static int largestElement(int[] nums){
@@ -95,6 +98,48 @@ public class Array {
         return result;
     }
 
+
+   
+        public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
+            TreeMap<Integer, Integer> ans = new TreeMap<>();  
+    
+            int left = 0, right = 0;
+    
+            while (left < nums1.length && right < nums2.length) {
+                if (nums1[left][0] < nums2[right][0]) {
+                    ans.put(nums1[left][0], ans.getOrDefault(nums1[left][0], 0) + nums1[left][1]);
+                    left++;
+                } else if (nums1[left][0] > nums2[right][0]) {
+                    ans.put(nums2[right][0], ans.getOrDefault(nums2[right][0], 0) + nums2[right][1]);
+                    right++;
+                } else { 
+                    ans.put(nums1[left][0], nums1[left][1] + nums2[right][1]);
+                    left++;
+                    right++;
+                }
+            }
+    
+            while (left < nums1.length) {
+                ans.put(nums1[left][0], ans.getOrDefault(nums1[left][0], 0) + nums1[left][1]);
+                left++;
+            }
+    
+            while (right < nums2.length) {
+                ans.put(nums2[right][0], ans.getOrDefault(nums2[right][0], 0) + nums2[right][1]);
+                right++;
+            }
+    
+            int[][] res = new int[ans.size()][2];
+            int index = 0;
+            for (Map.Entry<Integer, Integer> entry : ans.entrySet()) {
+                res[index][0] = entry.getKey();
+                res[index][1] = entry.getValue();
+                index++;
+            }
+    
+            return res;
+        }
+   
      
     public static void main(String[] args) {
         int[]  nums = {1,2,3,4,5};
