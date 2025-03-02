@@ -1,5 +1,3 @@
-package dsaproblems.Greedy Algo;
-
 public class 455:AssignCookies {
     public int findContentChildren(int[] g, int[] s) {
         Arrays.sort(g);

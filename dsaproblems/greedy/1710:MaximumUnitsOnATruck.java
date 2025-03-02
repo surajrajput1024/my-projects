@@ -1,5 +1,3 @@
-package dsaproblems;
-
 import java.util.List;
 
 import algorithms.ArrayList;
