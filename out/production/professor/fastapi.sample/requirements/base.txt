@@ -1,0 +1,13 @@
+alembic
+bcrypt
+fastapi
+httpx
+psycopg2-binary
+pydantic[email]
+redis
+requests
+SQLALchemy
+sqlalchemy_continuum
+tenacity
+python-keycloak
+PyJWT

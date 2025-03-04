@@ -1,0 +1,110 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# GitHub recommends pinning actions to a commit SHA.
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+
+name: Deploy to Amazon ECS
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  BRANCH_FOR_PRODUCTION_DEPLOYMENT: main
+  DEPLOYMENT_ENVIRONMENT: production
+  AWS_REGION: ap-south-1
+  ECR_REPOSITORY: spencers
+  ECS_SERVICE: SpencersBackend
+  ECS_CLUSTER_SUFFIX: -spencers
+  TASK_DEFINITION_NAME: spencers-backend-td
+  CONTAINER_NAME: spencers-backend
+  SERVICE_CONFIG: ./service_config.json
+
+
+jobs:
+  is_deployment_enabled:
+    name: Check Deployment Conditions
+    runs-on: ubuntu-latest
+    outputs:
+      status: ${{ steps.enable_deployment.outcome }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Check if deployment is enabled
+        id: enable_deployment
+        continue-on-error: true
+        run: |
+          export is_deploy=`cat ${{ env.SERVICE_CONFIG  }}  | jq .enable_deployment`
+          echo IS_DEPLOY:: ${is_deploy}
+          if [ "${is_deploy}" == "true" ]; then echo "Deployment is enabled"; exit 0; else echo "Deployment is not enabled"; exit 1; fi
+
+  deploy:
+    needs: is_deployment_enabled
+    if: needs.is_deployment_enabled.outputs.status == 'success'
+    name: Deploy
+    # runs-on: self-hosted
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Change environment if the branch is main
+        shell: bash
+        run: |
+          export CURRENT_BRANCH=$(echo ${GITHUB_REF#refs/heads/})
+          echo "Currently on (branch): ${CURRENT_BRANCH}"
+          if [ "${CURRENT_BRANCH}" == "${{ env.BRANCH_FOR_PRODUCTION_DEPLOYMENT }}" ]; then echo "Changing environment to production"; echo "DEPLOYMENT_ENVIRONMENT=production" >> $GITHUB_ENV; fi
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+          NODE_ENVIRONMENT: development
+          PROJECT_NAME: spencers-backend        # Change to your project name
+          #DB_STRING: ${{ env.SQLALCHEMY_URL }}
+        run: |
+          # Build a docker container and push it to ECR so that it can be deployed to ECS.
+          echo "Using project: ${PROJECT_NAME}..."
+          # Tag the image uniquely using the project name and SHA
+          docker build -t $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${PROJECT_NAME}-${IMAGE_TAG} .
+          docker push $ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${PROJECT_NAME}-${IMAGE_TAG}
+          echo "image=$ECR_REGISTRY/${{ env.ECR_REPOSITORY }}:${PROJECT_NAME}-${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+      - name: Download task definition
+        run: |
+          echo "Using Environment: ${DEPLOYMENT_ENVIRONMENT}, and ecs cluster: ${DEPLOYMENT_ENVIRONMENT}${{ env.ECS_CLUSTER_SUFFIX }}"
+          aws ecs describe-task-definition --task-definition ${TASK_DEFINITION_NAME} --query taskDefinition > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.DEPLOYMENT_ENVIRONMENT }}${{ env.ECS_CLUSTER_SUFFIX }}
+          wait-for-service-stability: true

@@ -1,0 +1,118 @@
+# .pylintrc
+
+[MASTER]
+# Specify a configuration file.
+rcfile=
+
+# Python code to check
+ignore=
+ignore-patterns=
+persistent=yes
+
+# List of plugins (as comma separated values of python modules names) to load
+load-plugins=
+
+[MESSAGES CONTROL]
+# Enable or disable messages, report, categories or checker with codes or names.
+
+disable=
+    # Disable missing docstring warnings
+    missing-docstring,
+    # Disable too-few-public-methods (useful for data classes or models)
+    too-few-public-methods,
+    # Disable duplicate-code checker
+    duplicate-code,
+    # Disable invalid-name (allows non-conventional variable names)
+    invalid-name,
+    # Disable import-error (since we might have imports from shared or other modules)
+    import-error,
+    # Disable no-name-in-module (helps with dynamic imports)
+    no-name-in-module,
+    # Disable too-many-arguments (common in FastAPI endpoints)
+    too-many-arguments,
+    # Disable too-many-locals
+    too-many-locals,
+    # Disable too-many-instance-attributes
+    too-many-instance-attributes,
+    # Disable too-many-statements
+    too-many-statements,
+    # Disable too-many-branches
+    too-many-branches,
+    # Disable too-many-return-statements
+    too-many-return-statements
+
+[REPORTS]
+# Set the output format. Available formats are text, parseable, colorized, msvs (visual studio) and json
+output-format = colorized
+
+# Disable the report by setting reports to no
+reports = no
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length = 88
+
+# Regexp for a line that is allowed to be longer than the limit.
+ignore-long-lines = ^\s*(# )?<?https?://\S+>?$
+
+[LOGGING]
+# Format style used to check logging format string.
+# Possible values: old, new, percent
+logging-format-style = new
+
+[BASIC]
+# Variable names that should be ignored when checking for invalid names
+good-names = i, j, k, ex, Run, _, pk, id, db, e
+
+# Argument names that match this expression will be ignored.
+# Default to ignore 'self' and 'cls'
+ignore-argument-names = ^(self|cls|root)$
+
+[TYPECHECK]
+# List of module names for which member attributes should not be checked
+ignored-modules = sys
+
+[SIMILARITIES]
+# Minimum lines number of a similarity.
+min-similarity-lines = 4
+
+[IMPORTS]
+# Allow wildcard imports from modules that define `__all__`
+allow-wildcard-with-all = yes
+
+[DESIGN]
+# Maximum number of arguments for function / method
+max-args = 10
+
+# Maximum number of attributes for a class (see R0902).
+max-attributes=15
+
+# Maximum number of boolean expressions in a if statement
+max-bool-expr=5
+
+# Maximum number of parents for a class (see R0901).
+max-parents=7
+
+[EXCEPTIONS]
+# Exceptions that will emit a warning when being caught. Defaults to `Exception`
+overgeneral-exceptions = Exception
+
+[SPELLING]
+# Spelling dictionary name. Available dictionaries: en_US, en_GB, etc.
+spelling-dict = en_US
+
+# List of comma separated words that should not be checked.
+spelling-ignore-words =
+
+# Path to a file that contains a list of words, one per line, that should not be checked.
+spelling-private-dict-file =
+
+[SIMILARITIES]
+# Ignore comments when computing similarities.
+ignore-comments = yes
+
+# Ignore docstrings when computing similarities.
+ignore-docstrings = yes
+
+# Ignore imports when computing similarities.
+ignore-imports = yes
