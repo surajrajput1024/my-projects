@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.Arrays;
 
 public class StriverSheet {
 
@@ -85,22 +86,22 @@ public class StriverSheet {
    * - Time complexity: O(n log n)
    * - Space complexity: O(n)
    */
-  private static void mergeSortRecursive(int[] nums) {
-    int n = nums.length;
-
-    if(n <= 1) {
-      return;
-    }
-
-    int mid = n / 2;
-    int[] left = Arrays.copyOfRange(nums, 0, mid);
-    int[] right = Arrays.copyOfRange(nums, mid, n);
-
-    mergeSortRecursive(left);
-    mergeSortRecursive(right);
-
-    merge(nums, left, right);
-  }
+//  private static void mergeSortRecursive(int[] nums) {
+//    int n = nums.length;
+//
+//    if(n <= 1) {
+//      return;
+//    }
+//
+//    int mid = n / 2;
+//    int[] left = Arrays.copyOfRange(nums, 0, mid);
+//    int[] right = Arrays.copyOfRange(nums, mid, n);
+//
+//    mergeSortRecursive(left);
+//    mergeSortRecursive(right);
+//
+//    merge(nums, left, right);
+//  }
 
   /**
    * Merge two sorted arrays
@@ -575,7 +576,8 @@ public class StriverSheet {
       }
     }
 
-    return Arrays.copyOf(ans, k);
+//    return Arrays.copyOf(ans, k)
+    return  Arrays.copyOfRange(ans, 0, k);
   }
 
   /**

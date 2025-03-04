@@ -27,9 +27,9 @@ public class Graph {
         return adjList;
     }
 
-    public int countComponents(int n, int[][] edges) {
-     
-    }
+//    public int countComponents(int n, int[][] edges) {
+//
+//    }
 
     public ArrayList<Integer> bfsOfGraph(int v, ArrayList<ArrayList<Integer>> adj) {
        Queue<Integer> queue = new LinkedList<>();

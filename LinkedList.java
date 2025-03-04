@@ -166,14 +166,14 @@ public class LinkedList {
        return newNode;
     }
 
-    private static ListNode constructLL(int[] nums) {
-        int n = nums.length;
-        if(n == 0) {
-            return null;
-        }
-
-        
-    }
+//    private static ListNode constructLL(int[] nums) {
+//        int n = nums.length;
+//        if(n == 0) {
+//            return null;
+//        }
+//
+//
+//    }
 
     public static void main(String[] args) {
         // Test Case 1: Regular case [5,4,2,1]

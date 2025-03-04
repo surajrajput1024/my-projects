@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.Arrays;
+
 class Node<T> {
     T data;
     Node<T> next;
