@@ -1,9 +1,8 @@
-import java.util.List;
+package dsaproblems.greedy;
+import java.util.Arrays;
 
-import algorithms.ArrayList;
 
-
-public class 1710:MaximumUnitsOnATruck {
+public class MaximumUnitsOnATruck1710 {
     public int maximumUnits(int[][] boxTypes, int truckSize) {
         Arrays.sort(boxTypes, (a, b) -> Integer.compare(b[1], a[1]));
 
@@ -19,9 +18,11 @@ public class 1710:MaximumUnitsOnATruck {
     }
 
     public static void main(String[] args) {
-        Solution sol = new Solution();
-        int[][] boxTypes = {{1,3}, {2,2}, {3,1}};
-        int truckSize = 4;
-        System.out.println(sol.maximumUnits(boxTypes, truckSize)); 
+      int[][] boxTypes = {{1,3},{2,2},{3,1}};
+      int truckSize = 4;
+      MaximumUnitsOnATruck1710 maximumUnitsOnATruck1710 = new MaximumUnitsOnATruck1710();
+
+      System.out.println(maximumUnitsOnATruck1710.maximumUnits(boxTypes, truckSize));
+
     }
 }
