@@ -207,3 +207,29 @@ class Main {
         system.out.println("Payment processed using Stripe");
     }
 }
+
+/**
+ * When to use Strategy design pattern:
+ * 1. When we've multiple classes that are similar to each other and they are only different in the way they perform
+ * some specific task.
+ * 2. When we want to define a class that will have one behavior that is similar to other behaviors in a list.
+ * 3. When we want to change the behavior of an object at runtime.
+ * 4. When we want to hide the implementation details of an object from the client.
+ * 5. When we want to separate the behavior of an object from the object itself.
+ * 6. When we want to reduce the complexity of a class by moving the behavior to another class.
+ * 7. When we want to implement different variations of an algorithm and allow the client to choose the best one.
+ * 
+ * Strategy design pattern is a behavioral design pattern that allows us to define a family of algorithms, encapsulate
+ * each one of them, and make them interchangeable. Strategy lets the algorithm vary independently from the clients
+ * that use it.
+ * 
+ * Benefits of Strategy Design pattern:
+ * 1. It allows us to define a family of algorithms, encapsulate each one of them, and make them interchangeable.
+ * 2. It allows us to change the behavior of an object at runtime.
+ * 3. It allows us to hide the implementation details of an object from the client.
+ * 4. It allows us to separate the behavior of an object from the object itself.
+ * 5. It allows us to reduce the complexity of a class by moving the behavior to another class.
+ * 6. It allows us to implement different variations of an algorithm and allow the client to choose the best one.
+ * 7. It allows us to implement the SOLID principles.
+ * 
+ */
