@@ -18,6 +18,12 @@ package designpatterns;
  *   many travel booking websites like MakeMyTrip, Goibibo, Yatra, etc. Each travel booking website has different
  * algorithms for booking flights, hotels, buses, etc. The client can choose the travel booking website that they want to
  * use.
+ * 
+ * Benefits of Strategy Design Pattern:
+ * 1. It allows us to define a family of algorithms, encapsulate each algorithm, and make them interchangeable.
+ * 2. It allows us to vary the algorithm independently from the clients that use it.
+ * 3. It allows us to add new algorithms without changing the existing algorithms.
+ * 
  */
 public class StrategyDesignPatterns {
     
