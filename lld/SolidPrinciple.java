@@ -236,14 +236,68 @@ class Chef implements FoodCooker {
 }
 
 /**
- * Dependency Inversion principle: High level modules should not depend on low level modules.
- * Both should depend on abstractions.
- * 
- * Abstractions should not depend on details. Details should depend on abstractions.
- * 
+ * Dependency Inversion principle: Class should dependens on interfaces not on concrete classes.
+ *
  * High level modules should not depend on low level modules. Both should depend on abstractions.
  *
-    **/
+**/
+class Macbook {
+    private final WiredKeyboard wiredKeyboard;
+    private final WiredMouse wiredMouse;
+
+    Macbook(WiredKeyboard wiredKeyboard, WiredMouse wiredMouse) {
+        // This is not following dependency inversion principle. as it's depending on concrete classes.
+        // Suppose in future we want to change the wiredKeyboard to wirelessKeyboard then we need to change the code here.
+        // So, it's not following dependency inversion principle.
+        this.wiredKeyboard = new WiredKeyboard();
+        this.wiredMouse = new WiredMouse();
+    }
+}
+
+// Instead we can do following:
+interface Keyboard {
+    void type();
+}
+
+interface Mouse {
+    void click();
+}
+
+class WiredKeyboard implements Keyboard {
+    public void type() {
+        // type something
+    }
+}
+
+class WiredMouse implements Mouse {
+    public void click() {
+        // click something
+    }
+}
+
+class WirelessKeyboard implements Keyboard {
+    public void type() {
+        // type something
+    }
+}
+
+class WirelessMouse implements Mouse {
+    public void click() {
+        // click something
+    }
+}
+
+class Macbook {
+    private final Keyboard keyboard;
+    private final Mouse mouse;
+
+    // Now we can send any type of keyboard and mouse to the Macbook class.
+    Macbook(Keyboard keyboard, Mouse mouse) {
+        this.keyboard = keyboard;
+        this.mouse = mouse;
+    }
+}
+
 
 
 
