@@ -473,7 +473,6 @@ public class LeetCode75 {
      * 
      * what is matter? 
      * 
-     * hello are you there?
      * 
      * @param args
      */
